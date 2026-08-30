@@ -1,0 +1,10 @@
+/* fichier site-toilettage-next/wrangler.jsonc */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "300poils",
+  "compatibility_date": "2026-01-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "", // à renseigner @tanstack/react-start/server-entry
+  "workers_dev": true, // active l'exposition publique par défaut
+  "preview_urls": true // active les URLs de prévisualisation CI/CD
+}

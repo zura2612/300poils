@@ -1,0 +1,29 @@
+{
+  "navigation": {
+    "labels": [
+      { "bouton": "Home", "to": "/", "requiresAuth": false },
+      { "bouton": "Services", "to": "/services", "requiresAuth": false },
+      { "bouton": "About", "to": "/about", "requiresAuth": false },
+      { "bouton": "Contact", "to": "/contact", "requiresAuth": false },
+      { "bouton": "Appointment", "to": "/rendez-vous", "requiresAuth": true,
+          "lockedMessage": "Please log in to access this page.",
+          "ariaLabelLocked": "Appointment, login required" }
+    ],
+    "cta": { "bouton": "Free quote", "to": "/contact" }
+  },
+
+  "tooltips": {
+    "themeLight": "Switch to dark mode",
+    "themeDark": "Switch to light mode",
+    "login": "Log in",
+    "logout": "Log out",
+    "logoutSuccess": "Successfully signed out",
+    "loading": "Loading...",
+    "connected": "connected"
+  },
+  "mobileSections": {
+    "language": "Language",
+    "display": "Display",
+    "account": "Account"
+  }
+}

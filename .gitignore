@@ -1,0 +1,19 @@
+# dépendances
+node_modules/
+public/legal/*.odt
+
+# build et outputs
+dist/
+.next/
+.output/
+
+# environnement
+.env
+.env.*
+!.env.example
+.dev.vars
+
+# caches et outils locaux
+.vscode/
+.wrangler/
+.vercel/

@@ -1,0 +1,30 @@
+{
+  "navigation": {
+    "labels": [
+      { "bouton": "Accueil", "to": "/", "requiresAuth": false },
+      { "bouton": "Services", "to": "/services", "requiresAuth": false },
+      { "bouton": "A propos", "to": "/about", "requiresAuth": false },
+      { "bouton": "Contact", "to": "/contact", "requiresAuth": false },
+      { "bouton": "Rendez-vous", "to": "/rendez-vous", "requiresAuth": true,
+          "lockedMessage": "Connectez-vous pour accéder à cette page.",
+          "ariaLabelLocked": "Rendez-vous, connexion requise" }
+    ],
+    "cta": { "bouton": "Devis gratuit", "to": "/contact" }
+  },
+
+  "tooltips": {
+    "themeLight": "Passer au thème sombre",
+    "themeDark": "Passer au thème clair",
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "logoutSuccess": "Déconnexion réussie",
+    "loading": "Chargement...",
+    "connected": "connecté"
+  },
+
+  "mobileSections": {
+    "language": "Langue",
+    "display": "Affichage",
+    "account": "Compte"
+  }
+}
