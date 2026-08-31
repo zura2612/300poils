@@ -5,7 +5,11 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Sun, Moon } from "lucide-react";
 
-export function ThemeToggle() {
+interface ThemeToggleProps {
+  labels?: { light: string; dark: string; };
+}
+
+export function ThemeToggle({ labels }: ThemeToggleProps) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -14,10 +18,15 @@ export function ThemeToggle() {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
-    return <div className="w-9 h-9" />; // Espace réservé pendant le chargement
-  }
+  // Si `labels` n'est pas fourni, on utilise les valeurs par défaut.
+  // Cela garantit que le composant fonctionne même sans prop (rétrocompatibilité).
+  const lightLabel = labels?.light ?? "Mode clair";
+  const darkLabel = labels?.dark ?? "Mode sombre";
 
+  /*if (!mounted) {
+    return <div className="w-9 h-9" />; // Espace réservé pendant le chargement
+  }*/
+  if (!mounted) {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
@@ -25,6 +34,24 @@ export function ThemeToggle() {
       aria-label="Changer le thème"
     >
       {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+    </button>
+  );
+  }
+
+const isDark = theme === "dark";
+
+return (
+    <button
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label={isDark ? lightLabel : darkLabel}
+      title={isDark ? lightLabel : darkLabel}
+      className="rounded-full p-2 hover:bg-muted transition-colors"
+    >
+      {isDark ? (
+        <Sun className="h-5 w-5" aria-hidden="true" />
+      ) : (
+        <Moon className="h-5 w-5" aria-hidden="true" />
+      )}
     </button>
   );
 }

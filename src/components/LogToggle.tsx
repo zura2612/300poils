@@ -1,7 +1,7 @@
 // fichier src/components/LogToggle.tsx
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@workos-inc/authkit-react";
-import { Link } from "next/link";
+import Link from "next/link";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { LogIn, LogOut, Loader2, ChevronDown, Shield, BarChart3 } from "lucide-react";
@@ -14,8 +14,8 @@ interface LogToggleProps {
     login: string;
     logout: string;
     loading: string;
-    logoutSuccess: string;
-    connected: string;
+    logoutSuccess?: string; // optionnel
+    connected?: string;     // optionnel
   };
 }
 

@@ -120,8 +120,8 @@ export default function Header() {
     <header className="mb-1 sticky top-0 z-100 backdrop-blur-md">
       <section className={sectionStyle}>
         <div className="flex h-16 items-center justify-between">
-          {/* Logo entreprise */}
-          <Link href="/" className="flex items-center gap-2 font-bold">
+          {/* Logo entreprise décalé à droite via ml-4*/}
+          <Link href="/" className="flex items-center gap-2 ml-4 font-bold">
             <img src="/favicon.ico" alt={`Logo ${siteConfig.entreprise}`} width={32} height={32}
               className="h-7 w-7 rounded-full object-cover"/>
             <span className="ml-2 text-base changer-couleur-effet">{siteConfig.entreprise}</span>
@@ -144,6 +144,8 @@ export default function Header() {
                 dark: t.tooltips.themeDark
               }}
             />
+            {/* Décalage de LogToggle vers la gauche via mr-4 */}
+            <div className="mr-4">
             <LogToggle
               labels={{
                 login: t.tooltips.login,
@@ -153,6 +155,9 @@ export default function Header() {
                 connected: t.tooltips.connected
               }}
             />
+            </div>
+
+
           </div>
 
           <button
@@ -193,11 +198,12 @@ export default function Header() {
                   <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                     {t.mobileSections.account}
                   </span>
+                  {/* logoutSuccess et connected ne sont pas utilisés. Pourquoi? */}
                   <LogToggle
                     labels={{
                       login: t.tooltips.login,
                       logout: t.tooltips.logout,
-                      loading: t.tooltips.loading
+                      loading: t.tooltips.loading,
                     }}
                   />
                 </div>

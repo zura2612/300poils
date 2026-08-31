@@ -5,6 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "export": "next export",
+    "tsc": "tsc --noEmit --pretty",
     "build:sitemapVercel": "node scripts/genererSitemapVercel.mjs",
     "build:sitemapCloudflare": "node scripts/genererSitemapCloudflare.mjs",
     "deploy:cloudflare": "wrangler deploy",

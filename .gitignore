@@ -17,3 +17,5 @@ dist/
 .vscode/
 .wrangler/
 .vercel/
+.vercel
+.env*

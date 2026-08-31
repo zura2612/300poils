@@ -10,6 +10,7 @@ interface EventSelectorProps {
   selectedEventId: string;
   onSelect: (eventId: string) => void;
   texts: BookingTranslations["events"];
+  isSelecting?: boolean;
 }
 
 // Mapping global des icônes disponibles
@@ -23,7 +24,7 @@ function formatPrice(event: CalEventConfig, texts: BookingTranslations["events"]
   return `${event.price} ${symbol}`;
 }
 
-export function EventSelector({events, selectedEventId, onSelect, texts}: EventSelectorProps) {
+export function EventSelector({events, selectedEventId, onSelect, texts, isSelecting = false}: EventSelectorProps) {
   return (
     <section className={siteClass.sectionClass}>
       <div className="container-narrow">

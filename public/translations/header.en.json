@@ -13,8 +13,8 @@
   },
 
   "tooltips": {
-    "themeLight": "Switch to dark mode",
-    "themeDark": "Switch to light mode",
+    "themeLight": "Switch to light mode",
+    "themeDark": "Switch to dark mode",
     "login": "Log in",
     "logout": "Log out",
     "logoutSuccess": "Successfully signed out",

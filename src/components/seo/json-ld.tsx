@@ -1,5 +1,5 @@
 // components/seo/json-ld.tsx
-import Script from "next/script";
+//import Script from "next/script";
 
 export default function JsonLd() {
   const jsonLd = {
@@ -17,13 +17,8 @@ export default function JsonLd() {
       "url": "https://site-toilettage47.com/contact"
     }
   };
-
+/* suppression de id="json-ld-website" et strategy="beforeInteractive" // Recommandé pour le SEO afin qu'il soit dispo rapidement */
   return (
-   <Script
-      id="json-ld-website"
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      strategy="beforeInteractive" // Recommandé pour le SEO afin qu'il soit dispo rapidem
-    />
+   <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
   );
 }

@@ -24,8 +24,8 @@ export function InlineCalendar({calLink, layout = "month_view", eventHandlers, c
   const containerRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"loading" | "loaded" | "error">("loading");
   const isInitializedRef = useRef(false);
-  console.log("[InlineCalendar] Prop calLink reçue :", calLink);
-  console.log("InlineCalendar.tsx: className=", className);
+  //console.log("[InlineCalendar] Prop calLink reçue :", calLink);
+  //console.log("InlineCalendar.tsx: className=", className);
   useCalEvents(eventHandlers);
 
   useEffect(() => {
@@ -66,10 +66,18 @@ export function InlineCalendar({calLink, layout = "month_view", eventHandlers, c
         console.warn("InlineCalendar.tsx: Container not in DOM, skipping initialization");
         return;
       }
+      // MODIFICATION : Intégration de layout dans l'URL calLink
+      // L'API Cal.com n'accepte pas 'layout' comme propriété directe de l'objet passé à cal("inline", {...}). 
+      // Il doit être intégré dans l'URL calLink sous forme de paramètre de requête (?layout=month_view).
+      // 
+      // On vérifie si calLink contient déjà un '?' pour utiliser le bon séparateur :
+      //   - Si '?' présent → on ajoute '&layout=xxx'
+      //   - Si '?' absent → on ajoute '?layout=xxx'
+      const calLinkWithLayout = calLink.includes("?") ? `${calLink}&layout=${layout}` : `${calLink}?layout=${layout}`;
       // Le script d'embed de Cal.com s'appuie sur ces attributs pour configurer 
       // l'iframe. Les définir manuellement garantit qu'il ne manque aucune information.
       element.setAttribute("data-cal-namespace", "default");
-      element.setAttribute("data-cal-link", calLink);
+      element.setAttribute("data-cal-link", calLinkWithLayout);
       element.setAttribute("data-cal-config", JSON.stringify({ layout }));
 
       // Configuration de l'UI du calendrier
@@ -82,8 +90,7 @@ export function InlineCalendar({calLink, layout = "month_view", eventHandlers, c
       // Injection du calendrier inline dans le conteneur référencé
       cal("inline", {
         elementOrSelector: element,
-        calLink,
-        layout
+        calLink: calLinkWithLayout,
       });
 
       setStatus("loaded");

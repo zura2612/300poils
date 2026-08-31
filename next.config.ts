@@ -2,7 +2,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-	/* config options here */
         async headers() {
           return [
           {
@@ -11,14 +10,15 @@ const nextConfig: NextConfig = {
           },
           ];
         },
-	/*experimental: {
-          serverActions: { allowedOrigins: ['www.site-toilettage47.com', 'site-toilettage47.com'] },
-        },*/
         images: { 
           qualities: [75],
           deviceSizes: [640, 750, 828, 1080, 1200], //largeurs pour desktop
           imageSizes: [128, 256, 384], //largeurs pour mobile
         },
 };
+//const nextConfig: NextConfig = {
+  // Force l'utilisation de Webpack pour le build de production => NON!
+  // (Turbopack reste utilisé pour `next dev` sauf si --no-turbo est passé)
+//};
 
 export default nextConfig;

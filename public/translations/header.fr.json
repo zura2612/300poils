@@ -13,8 +13,8 @@
   },
 
   "tooltips": {
-    "themeLight": "Passer au thème sombre",
-    "themeDark": "Passer au thème clair",
+    "themeLight": "Passer au thème clair",
+    "themeDark": "Passer au thème sombre",
     "login": "Se connecter",
     "logout": "Se déconnecter",
     "logoutSuccess": "Déconnexion réussie",

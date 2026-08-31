@@ -62,11 +62,11 @@ export interface BookingTranslations {
     price: string;
     free: string;
     duration: string;
-    selectButton: string;      // inutilisé
-    selected: string;          // inutilisé
-    chooseButton: string;      // Libellé du bouton "Choisir"
-    choosingButton: string;    // Libellé du bouton pendant le chargement
-    preSelected: string;       // Libellé de l'indicateur de pré-sélection dans la vignette
+    selectButton: string;      
+    selected: string;          
+    chooseButton: string;      // inutilisé Libellé du bouton "Choisir"
+    choosingButton: string;    // inutiliséLibellé du bouton pendant le chargement
+    preSelected: string;       // inutilisé Libellé de l'indicateur de pré-sélection dans la vignette
     event15min: { iconKey: string; title: string; description: string; };
     event30min: { iconKey: string; title: string; description: string; };
     event60min: { iconKey: string; title: string; description: string; };

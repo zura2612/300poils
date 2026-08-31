@@ -156,7 +156,7 @@ export default function BookingPage() {
   if (error || !t) {
     return (
       <main className="w-full">
-        <section className={sectionStyle}>
+        <section className={siteClass.sectionClass}>
           <p className="text-center py-4 text-destructive" role="alert">
             {error instanceof Error ? error.message : "Impossible de charger les textes de la page Rendez-vous"}
           </p>
