@@ -34,6 +34,7 @@ function ContactFormContent() {
     handleSubmit,
     setValue,
     reset,
+    setError, // pour enregistrer les erreurs serveur globales dans React Hook Form
     formState: { errors, isSubmitting },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -67,6 +68,7 @@ function ContactFormContent() {
   }
 
   const onSubmit = async (data: ContactFormData) => {
+    try {
     const res = await sendContactEmail(data);
 
     if (res.success) {
@@ -95,8 +97,16 @@ function ContactFormContent() {
       });
       reset();
     } else {
-      toast.error(res.error || "Une erreur est survenue lors de l'envoi.", { duration: 10000 });
+      const messageErreur = res.error || "Une erreur est survenue lors de l'envoi.";
+      toast.error(messageErreur, { duration: 10000 });
+      setError("root", { type: "manual", message: messageErreur });
     }
+  } catch (err) {
+      //Gestion des erreurs de connexion ou de rejet de promesse
+      const messageCrash = "Impossible de joindre le serveur. Vérifiez votre connexion internet.";
+      toast.error(messageCrash, { duration: 10000 });
+      setError("root", { type: "manual", message: messageCrash });
+  }
   };
 
   return (

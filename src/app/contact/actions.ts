@@ -5,18 +5,22 @@ import { Resend } from "resend";
 import { contactSchema, ContactFormData } from "@/lib/schemas/contact";
 import { siteConfig } from "@/config/site";
 
-const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
+//const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
 const nomSite = siteConfig.name; // fvsoft1963
 const nomSiteMaj = nomSite.toUpperCase(); // FVSOFT1963
 const urlSite = siteConfig.url; // https://fvsoft1963.com
 
 export async function sendContactEmail(data: ContactFormData) {
-  const emailTo = process.env.NEXT_PUBLIC_EMAIL_TO;
-
-  // 1. Validation Runtime + Narrowing TypeScript automatique
+  const emailTo = process.env.EMAIL_TO;
+  const apiKey = process.env.RESEND_API_KEY;
+  // 1. Validation stricte des variables d'environnement
+  if (!apiKey) {
+    console.error("action.ts ERREUR : RESEND_API_KEY non définie sur le serveur.");
+    return { success: false, error: "Configuration serveur incomplète : service email indisponible." };
+  }
   if (!emailTo) {
-    console.error("action.ts ERREUR: La variable d'environnement EMAIL_TO n'est pas définie.");
-    return { success: false, error: "Configuration serveur incomplète: EMAIL_TO inconnu" };
+    console.error("action.ts ERREUR : EMAIL_TO non définie sur le serveur.");
+    return { success: false, error: "Configuration serveur incomplète : destinataire inconnu." };
   }
 
   // 2. Validation robuste côté serveur
@@ -35,6 +39,7 @@ export async function sendContactEmail(data: ContactFormData) {
 
   // 4. Envoi via l'API Resend
   try {
+    const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({
       from: `${nomSite}.com <onboarding@resend.dev>`,
       //to: [emailTo], pose problème avec next build? NON!
@@ -67,6 +72,6 @@ export async function sendContactEmail(data: ContactFormData) {
     return { success: true };
   } catch (err) {
     console.error("action.ts/catch Erreur Resend inattendue:", err);
-    return { success: false, error: "Erreur inconnue. Impossible d'envoyer votre message pour le moment." };
+    return { success: false, error: "Une erreur inconnue du serveur resend est survenue." };
   }
 }
