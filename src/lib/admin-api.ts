@@ -1,8 +1,8 @@
 // fichier src/lib/admin-api.ts
 import { logWithTimestamp, errorWithTimestamp, warnWithTimestamp } from "@/lib/logger";
 
-const adminWorkerUrl = process.env.ADMIN_WORKER_URL;
-//logWithTimestamp("admin-api.ts: ADMIN_WORKER_URL=",adminWorkerUrl);
+const adminWorkerUrl = process.env.NEXT_PUBLIC_ADMIN_WORKER_URL;
+//logWithTimestamp("admin-api.ts: NEXT_PUBLIC_ADMIN_WORKER_URL=",adminWorkerUrl);
 
 export async function callAdminApi(
   endpoint: string,
@@ -10,7 +10,7 @@ export async function callAdminApi(
 ) {
   try {
     if (!adminWorkerUrl) {
-      throw new Error("admin-api.ts: ADMIN_WORKER_URL est manquant dans le fichier .env du projet front !");
+      throw new Error("admin-api.ts: NEXT_PUBLIC_ADMIN_WORKER_URL est manquant dans le fichier .env du projet front !");
     }
 
     const accessToken = await getAccessToken();

@@ -12,14 +12,14 @@ export const metadata: Metadata = {
   description: siteConfig.headDescriptionBooking,
   robots: { index: true, follow: true },
   alternates: {
-    canonical: `${siteConfig.urlSite}/rendez-vous`,
+    canonical: `${siteConfig.url}/rendez-vous`,
   },
   openGraph: {
     title: `${siteConfig.entreprise} — Prendre rendez-vous`,
     description: siteConfig.headDescriptionBooking,
     type: "website",
-    url: `${siteConfig.urlSite}/rendez-vous`,
-    images: [`${siteConfig.urlSite}/vehicule.jpg`],
+    url: `${siteConfig.url}/rendez-vous`,
+    images: [`${siteConfig.url}/vehicule.jpg`],
     siteName: siteConfig.entreprise,
   },
 };

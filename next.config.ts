@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
           return [
           {
           source: "/:path*",
-          headers: [ { key: "Link", value: '<https://300poils.vercel.app/llms.txt>; rel="alternate"; type="text/markdown"', },],
+          headers: [ { key: "Link", value: '<https://300poils-fvsoft-1963.vercel.app/llms.txt>; rel="alternate"; type="text/markdown"', },],
           },
           ];
         },

@@ -19,13 +19,13 @@ export const metadata: Metadata = {
     template: "%s | 300poils",
   },
   description:
-    "Site vitrine pour entreprise de toilettage canin dans le 47",
+    "Entreprise de toilettage canin dans le 47",
   icons: { icon: "/favicon.ico" },
   openGraph: {
     title: "300poils | Toiletteur canin Lot-et-Garonne",
     description:
-      "Site vitrine pour entreprise de toilettage canin dans le 47",
-    url: "https://300poils.vercel.app",
+      "Entreprise de toilettage canin dans le 47",
+    url: "https://300poils-fvsoft-1963.vercel.app",
     siteName: "300poils",
     locale: "fr_FR",
     type: "website",
@@ -36,17 +36,11 @@ export const metadata: Metadata = {
   },
 };
 
-/* - attribute="class" : next-themes ajoutera la classe "dark" sur <html> quand le thème sombre est actif.
-     C'est ce qui active les variantes dark: de Tailwind CSS (ex: dark:bg-gray-950).
-   - defaultTheme="system" : utilise la préférence du système d'exploitation comme valeur par défaut (auto-détection jour/nuit).
-   - enableSystem : permet à l'utilisateur de revenir au mode "auto".
-   - disableTransitionOnChange : évite un flash visuel lors du basculement en désactivant les transitions CSS pendant le changement de thème.
-*/
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="fr" data-scroll-behavior="smooth" suppressHydrationWarning>
       {/* 100% de la hauteur de l'écran flexbox verticale utiliser bg-background et text-foreground définis dans globals.css*/}
-    <body className={`font-sans min-h-screen flex flex-col bg-white dark:bg-black text-black dark:text-white`} suppressHydrationWarning>
+    <body className={`font-sans min-h-screen flex flex-col bg-white dark:bg-black text-base text-black dark:text-white`} suppressHydrationWarning>
       <Providers>
         <Header />
         <main className="flex-1 py-2 sm:py-4">{children}</main>            

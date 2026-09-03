@@ -1,7 +1,8 @@
 // src/config/site.ts
   export const siteConfig = {
+  name: "300poils",
   entreprise: "300 Poils",
-  urlSite: "https://troiscentspoils.com",
+  url: "https://300poils.com",
   nom: "François Vauchot",
   siret: "82464748010203",
   adresse: "148 route de Figuès 47250 ARGENTON",
@@ -33,6 +34,7 @@ export const siteStyle = {
 
 export const siteClass = {
   sectionClass: "container-narrow rounded-xl mb-2 border border-black dark:border-white",
+  text: "text-black dark:text-white bg-white dark:bg-black",
   border: "border border-black dark:border-white",
   hoverBorder: "hover:border-blue-500 dark:hover:border-blue-500",
   };

@@ -3,6 +3,10 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@workos-inc/authkit-react';
 import { getCurrentUser } from '@/lib/admin-api';
 
+// Custom metadata dans workos.com pour l'utilisateur administrateur francois.vauchot@gmail.com
+const ADMIN_ROLE = 'AdminSiteDev';
+const ADMIN_SLUG = 'admin'; // quelle est son utilité?
+
 interface AdminUser {
   id: string;
   email: string;
@@ -25,12 +29,15 @@ export function useAdminUser() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user || isAuthLoading) {
-      setIsLoading(false);
-      return;
-    }
+    if (!user || isAuthLoading) { setIsLoading(false); setAdminUser(null); return; }
 
     async function loadAdminUser() {
+      // Évite l'appel API et le log d'erreur inutile si la variable est absente
+      if (!process.env.NEXT_PUBLIC_ADMIN_WORKER_URL) {
+        setError("NEXT_PUBLIC_ADMIN_WORKER_URL non définie");
+        setIsLoading(false);
+        return;
+      }
       try {
         setIsLoading(true);
         const response = await getCurrentUser(getAccessToken);
@@ -51,7 +58,7 @@ export function useAdminUser() {
 
 
   // pour un projet donné metadata.role = name et metadata.slug = slug du rôle défini dans Authorization/Roles
-  const isAdmin = adminUser?.metadata?.role === 'AdminSiteDev';
+  const isAdmin = adminUser?.metadata?.role === ADMIN_ROLE;
 /*if(adminUser) {
 console.log("hooks/useAdminUser.ts adminUser.metadata.role=", adminUser.metadata.role);
 console.log("hooks/useAdminUser.ts adminUser.metadata.slug=", adminUser.metadata.slug);

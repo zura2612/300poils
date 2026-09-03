@@ -5,15 +5,16 @@
   },
   "formulaire": {
     "confidentialite": "Vos données et celles de votre animal restent confidentielles et ne sont utilisées que pour traiter votre demande.",
-    "telephone": "votre numéro de téléphone",
-    "champ": "* champ obligatoire",
+    "telephone": "Votre numéro de téléphone",
+    "champ": "Les champs marqués d'un astérisque (*) sont obligatoires.",
     "bouton": "Envoyer la demande",
-    "message": "votre message *",
+    "bouton_attente": "Envoi en cours...",
+    "message": "Votre message *",
     "message_suggestion": "Précisez votre adresse, le nom, la race et l'âge de votre animal, etc...",
     "message_tooltip": "Veuillez renseigner ce champ.",
-    "projet": "type de soins",
-    "email": "votre email *",
-    "identite": "prénom nom *"
+    "projet": "Type de soins *",
+    "email": "Votre email *",
+    "identite": "Prénom Nom *"
   },
   "toast": {
     "succes": "Demande envoyée ! Nous vous recontactons sous 48h au plus tard.",

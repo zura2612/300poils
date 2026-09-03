@@ -1,36 +1,58 @@
-// fichier src/app/contact/page.tsx
+// src/app/contact/page.tsx
 "use client";
 
-import { Suspense, useState, useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { ChevronDown } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+
+import { contactSchema, ContactFormData } from "@/lib/schemas/contact";
+import { sendContactEmail } from "./actions";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { usePageTranslations } from "@/hooks/usePageTranslations";
 import type { ContactTranslations } from "@/types/translations";
-import { siteConfig, siteStyle, siteClass } from "@/config/site";
+import { siteStyle, siteClass } from "@/config/site";
 
-const intituleZoneSaisieStyle = "text-xs font-semibold uppercase tracking-wider text-muted-foreground";
-const inputBase = `w-full rounded-xl ${siteClass.border} ${siteClass.hoverBorder} bg-background text-foreground px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary`;
-const selectBase = `${inputBase} appearance-none pr-8 cursor-pointer`;
-const workerUrl = process.env.NEXT_PUBLIC_RESEND_WORKER_URL;
+const styleLabel = "block mb-3";
+const styleInput = `w-full px-4 py-2.5 rounded-xl ${siteClass.border} focus:ring-1 focus:ring-ring outline-none`;
+const styleButton = siteStyle.boutonStyle;
+const styleText = siteClass.text;
 
 function ContactFormContent() {
   const { lang } = useLanguage();
   const { data: t, error, isLoading } = usePageTranslations<ContactTranslations>("contact", lang);
 
   const searchParams = useSearchParams();
-  const projectFromUrl = searchParams.get("project") || "";
-  const [isSending, setIsSending] = useState(false);
+  const subjectParam = searchParams.get("subject") || searchParams.get("project") || "";
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const [selectedProject, setSelectedProject] = useState<string>(projectFromUrl);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      prenomNom: "",
+      email: "",
+      telephone: "",
+      sujet: "",
+      message: "",
+      website: "", // Honeypot antispam
+    },
+  });
 
+  // Injection automatique du sujet/projet passé en paramètre URL
   useEffect(() => {
-    if (t && !selectedProject && t.projets?.defaut) {
-      setSelectedProject(t.projets.defaut);
+    if (subjectParam) {
+      setValue("sujet", subjectParam, { shouldValidate: true });
     }
-  }, [t, selectedProject]);
+  }, [subjectParam, setValue]);
 
   if (isLoading) {
     return <p className="text-center py-10 animate-pulse">Chargement des textes de la page contact...</p>;
@@ -44,155 +66,137 @@ function ContactFormContent() {
     );
   }
 
-  const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSending(true);
+  const onSubmit = async (data: ContactFormData) => {
+    const res = await sendContactEmail(data);
 
-    if (!workerUrl) {
-      toast.error("Configuration serveur manquante (RESEND_WORKER_URL). Contactez l'administrateur.");
-      console.error("[ContactPage] La variable d'environnement NEXT_PUBLIC_RESEND_WORKER_URL n'est pas définie.");
-      setIsSending(false);
-      return;
-    }
+    if (res.success) {
+      toast.success("Votre message a bien été envoyé !");
 
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
+      // Chargement dynamique de canvas-confetti au submit (SSR-safe)
+      const confetti = (await import("canvas-confetti")).default;
 
-    const enrichedData = { ...data, pageUrl: window.location.href };
-
-    try {
-      const response = await fetch(workerUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(enrichedData),
-      });
-
-      const result = (await response.json()) as { error?: string };
-
-      if (response.ok) {
-        toast.success(t.toast.succes);
-        form.reset();
-        setSelectedProject(t.projets.defaut);
-      } else {
-        toast.error(result.error ?? t.toast.erreur_resend);
+      let originX = 0.5;
+      let originY = 0.5;
+      if (buttonRef.current) {
+        const rect = buttonRef.current.getBoundingClientRect();
+        originX = (rect.left + rect.width / 2) / window.innerWidth;
+        originY = (rect.top + rect.height / 2) / window.innerHeight;
       }
-    } catch (err) {
-      toast.error(t.toast.erreur_reseau);
-      console.error("Erreur :", err);
-    } finally {
-      setIsSending(false);
+
+      confetti({
+        particleCount: 200,
+        spread: 90,
+        origin: { x: originX, y: originY },
+        colors: [
+          "#4f46e5", "#818cf8", "#312e81",
+          "#ef4444", "#dc2626", "#eab308",
+          "#facc15", "#ffffff",
+        ],
+      });
+      reset();
+    } else {
+      toast.error(res.error || "Une erreur est survenue lors de l'envoi.", { duration: 10000 });
     }
   };
 
   return (
-    <main className="w-full">
+    <main className="w-full pb-5">
       <Toaster position="top-right" duration={4000} />
 
+      {/* Section En-tête */}
       <section className={siteClass.sectionClass}>
-        <div className="container-narrow flex flex-col items-center gap-10 py-5 md:grid-cols-2 md:py-10">
+        <div className="container-narrow flex flex-col items-center gap-10 py-2 md:py-4">
           <h1 className={`${siteStyle.ligne1SectionBleuStyle}`}>{t.hero.primary}</h1>
           <p className={`${siteStyle.ligne2SectionBleuStyle}`}>{t.hero.secondary}</p>
+          <p className="w-full text-right italic text-black dark:text-white mt-3">{t.formulaire.champ}</p>
         </div>
       </section>
 
-      <section className={siteClass.sectionClass}>
-        <div className="grid">
-          <form onSubmit={sendEmail} className="w-full rounded-xl p-2 md:p-4 shadow-soft">
-            <div className="flex justify-end mb-1">
-              <p className="text-xs text-muted-foreground italic" id="required-fields-note">
-                {t.formulaire.champ}
-              </p>
-            </div>
-
-            <div className="grid gap-2 md:gap-4 sm:grid-cols-2 md:grid-cols-3">
-              {/* Identité */}
-              <div>
-                <label className={intituleZoneSaisieStyle}>{t.formulaire.identite}</label>
-                <input
-                  name="prenomNom"
-                  type="text"
-                  required
-                  title={t.formulaire.message_tooltip}
-                  className={inputBase}
-                />
-              </div>
-
-              {/* Téléphone */}
-              <div>
-                <label className={intituleZoneSaisieStyle}>{t.formulaire.telephone}</label>
-                <input name="phone" type="tel" className={inputBase} />
-              </div>
-
-              {/* Courriel */}
-              <div>
-                <label className={intituleZoneSaisieStyle}>{t.formulaire.email}</label>
-                <input
-                  name="courriel"
-                  type="email"
-                  required
-                  title={t.formulaire.message_tooltip}
-                  className={inputBase}
-                />
-              </div>
-
-              {/* Sélection du soin / projet */}
-              <div className="col-span-full sm:col-span-1">
-                <label className={intituleZoneSaisieStyle}>{t.formulaire.projet}</label>
-                <div className="relative">
-                  <select
-                    name="project"
-                    className={selectBase}
-                    value={selectedProject}
-                    onChange={(e) => setSelectedProject(e.target.value)}
-                  >
-                    <option value={t.projets.defaut}>{t.projets.defaut}</option>
-                    {t.projets.labels.map((projet, index) => (
-                      <option key={index} value={projet.option}>
-                        {projet.option}
-                      </option>
-                    ))}
-                  </select>
-
-                  <ChevronDown
-                    className="pointer-events-none absolute h-4 w-4 text-muted-foreground top-1/2 -translate-y-1/2"
-                    style={{ right: "10px" }}
-                    aria-hidden="true"
-                  />
-                </div>
-              </div>
-
-              {/* Message */}
-              <div className="col-span-full">
-                <label className={intituleZoneSaisieStyle}>{t.formulaire.message}</label>
-                <textarea
-                  name="message"
-                  rows={5}
-                  required
-                  title={t.formulaire.message_tooltip}
-                  aria-describedby="required-fields-note"
-                  className={inputBase}
-                  placeholder={t.formulaire.message_suggestion}
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={isSending}
-              className={`mt-4 ${siteStyle.boutonStyle} disabled:opacity-50 disabled:cursor-not-allowed`}
-            >
-              {isSending ? "Envoi en cours..." : t.formulaire.bouton}
-            </button>
-
-            <p className="mt-3 text-xs text-muted-foreground">{t.formulaire.confidentialite}</p>
-          </form>
+      {/* Formulaire */}
+      <form onSubmit={handleSubmit(onSubmit)} className={`container-narrow flex flex-col ${siteClass.sectionClass} space-y-6 px-4 mt-6`}>
+        {/* Honeypot antispam */}
+        <div className="hidden" aria-hidden="true">
+          <input type="text" tabIndex={-1} autoComplete="off" {...register("website")} />
         </div>
-      </section>
+
+        {/* Ligne 1 : Identité, Email, Téléphone */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div>
+            <label htmlFor="prenomNom" className={styleLabel}>{t.formulaire.identite}</label>
+            <input
+              id="prenomNom"
+              {...register("prenomNom")}
+              className={styleInput}
+              placeholder="Jean Martin"
+            />
+            {errors.prenomNom && <p className="text-red-500 text-xs mt-1">{errors.prenomNom.message}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="email" className={styleLabel}>{t.formulaire.email}</label>
+            <input
+              id="email"
+              type="email"
+              {...register("email")}
+              className={styleInput}
+            />
+            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="telephone" className={styleLabel}>{t.formulaire.telephone}</label>
+            <input
+              id="telephone"
+              type="tel"
+              {...register("telephone")}
+              className={styleInput}
+            />
+            {errors.telephone && <p className="text-red-500 text-xs mt-1">{errors.telephone.message}</p>}
+          </div>
+        </div>
+
+        {/* Ligne 2 : Sujet / Projet */}
+        <div>
+          <label htmlFor="sujet" className={styleLabel}>{t.formulaire.projet}</label>
+          <div className="relative max-w-xs">
+            <select  id="sujet" {...register("sujet")} className={`${styleInput} appearance-none pr-10 cursor-pointer`}>
+              <option value={t.projets.defaut} className={styleText}>{t.projets.defaut}</option>
+              {t.projets?.labels?.map((projet, index) => ( <option key={index} value={projet.option} className={styleText}>{projet.option}</option>))}
+            </select>
+            {/* Icône flèche pour matérialiser le déroulant */}
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 pointer-events-none text-black dark:text-white" />
+          </div>
+          {errors.sujet && <p className="text-red-500 text-xs mt-1">{errors.sujet.message}</p>}
+        </div>
+
+        {/* Ligne 3 : Message */}
+        <div>
+          <label htmlFor="message" className={styleLabel}>{t.formulaire.message}</label>
+          <textarea
+            id="message"
+            rows={5}
+            {...register("message")}
+            className={styleInput}
+            placeholder={t.formulaire.message_suggestion}
+          />
+          {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message.message}</p>}
+        </div>
+
+        {/* Bouton */}
+        <button
+          ref={buttonRef}
+          type="submit"
+          disabled={isSubmitting}
+          className={`w-fit self-center ${styleButton}`}
+        >
+          {isSubmitting ? t.formulaire.bouton_attente : t.formulaire.bouton }
+        </button>
+      </form>
     </main>
   );
 }
 
+// Composant racine exporté avec la frontière Suspense obligatoire pour useSearchParams
 export default function ContactPage() {
   return (
     <Suspense fallback={<p className="text-center py-10 animate-pulse">Chargement...</p>}>

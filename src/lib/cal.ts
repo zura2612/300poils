@@ -1,6 +1,10 @@
 // fichier src/lib/cal.ts
 import { getCalApi } from "@calcom/embed-react";
 
+// MODIFICATION : Namespace unique partagé par le calendrier inline et ses écouteurs.
+// Une seule valeur évite que les composants Cal.com utilisent des instances différentes.
+export const CAL_NAMESPACE = "booking-inline";
+
 type CalInstance = Awaited<ReturnType<typeof getCalApi>>;
 let cachedInstance: CalInstance | null = null;
 let initPromise: Promise<CalInstance> | null = null;
@@ -13,8 +17,9 @@ export async function getCalInstance(): Promise<CalInstance> {
   if (cachedInstance) return cachedInstance;
   if (initPromise) return initPromise;
 
+  // MODIFICATION : Réutiliser le namespace centralisé pour l'instance Cal.com.
   initPromise = getCalApi({
-    namespace: "booking-inline"
+    namespace: CAL_NAMESPACE
   }).then((instance) => {
     cachedInstance = instance;
     return instance;

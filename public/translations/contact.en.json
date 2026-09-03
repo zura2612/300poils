@@ -6,12 +6,13 @@
   "formulaire": {
     "confidentialite": "Your data and your pet's information remain confidential and are only used to process your request.",
     "telephone": "Your phone number",
-    "champ": "* required field",
+    "champ": "Fields marked with an asterisk (*) are mandatory.",
     "bouton": "Send request",
+    "bouton_attente": "Sending...",
     "message": "Your message *",
     "message_suggestion": "Please specify your address, your pet's name, breed, and age, etc...",
     "message_tooltip": "Please fill in this field.",
-    "projet": "Type of care",
+    "projet": "Type of care *",
     "email": "Your email *",
     "identite": "First & last name *"
   },

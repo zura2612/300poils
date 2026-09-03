@@ -44,7 +44,7 @@ export interface ContactTranslations {
   projets: { defaut: string; labels: Array<{ option: string; }>; };
   formulaire: { champ: string; identite: string; telephone: string; email: string; projet: string;
     message: string; message_suggestion: string; message_tooltip: string;
-    bouton: string; confidentialite: string };
+    bouton: string; bouton_attente: string; confidentialite: string };
   toast: { succes: string; erreur_resend: string; erreur_reseau: string };
 }
 

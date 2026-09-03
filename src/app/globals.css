@@ -17,72 +17,57 @@
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
-  --color-navy: var(--navy);
-  --color-gold: var(--accent);
-  --color-gold-foreground: var(--accent-foreground);
+  --color-souligne: var(--souligne);
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --shadow-soft: 0 8px 30px -12px rgb(26 28 62 / 0.15);
 }
 
 :root {
   --radius: 0.75rem; /* rounded-xl */
-  /* Brand */
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.22 0.06 270);            /* #1A1A3E navy */
-  --navy: oklch(0.22 0.06 270);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.06 270);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.06 270);
-  --primary: oklch(0.55 0.24 264);               /* #1A5CFF royal blue */
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.97 0.005 250);
-  --secondary-foreground: oklch(0.22 0.06 270);
-  --muted: oklch(0.96 0.005 250);
-  --muted-foreground: oklch(0.45 0.02 270);
-  --accent: oklch(0.87 0.16 95);                 /* #FFD700 gold */
-  --accent-foreground: oklch(0.22 0.06 270);
-  --destructive: oklch(0.6 0.22 27);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.91 0.005 250);               /* #E0E0E0 */
-  --input: oklch(0.91 0.005 250);
-  --ring: oklch(0.55 0.24 264);
+  /* Brand cf https://oklch.com WCAG=> https://huetone.ardov.me */
+  --background: oklch(1 0 0);			/* #FFFFFF blanc */
+  --foreground: oklch(0.24 0.07 280);		/* #1A1A3F bleu marine */
+  --souligne: oklch(0.24 0.07 280);		/* bleu marine */
+  --card: oklch(1 0 0);				/* blanc */
+  --card-foreground: oklch(0.24 0.07 280);	/* bleu marine */
+  --primary: oklch(0.55 0.25 260);		/* #0065F1 bleu */
+  --primary-foreground: oklch(1 0 0);		/* blanc */
+  --muted: oklch(1 0 0);			/* blanc */
+  --muted-foreground: oklch(0.50 0 0);		/* #636363 gris */
+  --accent: oklch(0.89 0.18 95);		/* #FFD700 jaune  */
+  --accent-foreground: oklch(0.24 0.07 280);	/* bleu marine */
+  --destructive: oklch(0.6 0.22 27);		/* #e62c2c rouge */
+  --border: oklch(0 0 0);			/* #000000 noir */
+  --input: oklch(0 0 0);			/* noir bordure des champs de formulaire */
+  --ring: oklch(0.55 0.25 260);			/* bleu */
 }
 
 .dark {
-  --background: oklch(0.18 0.04 270);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.22 0.05 270);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.22 0.05 270);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.65 0.22 264);
-  --primary-foreground: oklch(0.18 0.04 270);
-  --secondary: oklch(0.28 0.04 270);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.28 0.04 270);
-  --muted-foreground: oklch(0.7 0.02 270);
-  --accent: oklch(0.87 0.16 95);
-  --accent-foreground: oklch(0.18 0.04 270);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.65 0.22 264);
+  --background: oklch(0.24 0.07 280);
+  --foreground: oklch(1 0 0);
+  --souligne: oklch(0.89 0.18 95);
+  --card: oklch(0.24 0.07 280);
+  --card-foreground: oklch(1 0 0);
+  --primary: oklch(1 0 0);
+  --primary-foreground: oklch(0.5 0.25 260);
+  --muted: oklch(0.5 0 0);
+  --muted-foreground: oklch(1 0 0);
+  --accent: oklch(0.24 0.07 280);
+  --accent-foreground: oklch(0.89 0.18 95);
+  --border: oklch(1 0 0);
+  --input: oklch(1 0 0);
+  --ring: oklch(0.55 0.25 260);
 }
 
 @layer base {
@@ -137,7 +122,4 @@
     padding-block: 0.5rem; /* Padding vertital réduit sur mobile */
     }
 }
-
-
-
 
