@@ -86,7 +86,7 @@ export function InlineCalendar({calLink, layout = "month_view", eventHandlers, c
       cal("inline", {
         elementOrSelector: element,
         calLink,
-        layout
+        config: { layout, },
       });
 
       setStatus("loaded");
