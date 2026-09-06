@@ -1,8 +1,8 @@
 // fichier src/middleware.ts
 import { authkitMiddleware } from "@workos-inc/authkit-nextjs";
 
-//export default authkitMiddleware({ redirectUri: process.env.WORKOS_REDIRECT_URI, });
-export default authkitMiddleware();
+export default authkitMiddleware({ redirectUri: process.env.WORKOS_REDIRECT_URI, });
+//export default authkitMiddleware();
 
 export const config = {
   matcher: [
