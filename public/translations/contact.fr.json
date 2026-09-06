@@ -16,6 +16,14 @@
     "email": "Votre email *",
     "identite": "Prénom Nom *"
   },
+  "validation": {
+    "err_prenomNom_requis": "Ce champ est obligatoire",
+    "err_prenomNom_format": "Saisissez votre prénom (min. 2 lettres), un espace, puis votre nom (min. 2 lettres)",
+    "err_email_invalide": "Adresse e-mail invalide",
+    "err_telephone_invalide": "Numéro de téléphone invalide",
+    "err_sujet_min": "Le type de projet doit contenir au moins 3 caractères",
+    "err_message_min": "Le message doit contenir au moins 10 caractères"
+  },
   "toast": {
     "succes": "Demande envoyée ! Nous vous recontactons sous 48h au plus tard.",
     "erreur_resend": "Erreur lors de l'envoi. Nous sommes désolés. Envoyez-nous directement un courriel.",

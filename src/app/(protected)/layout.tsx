@@ -1,7 +1,8 @@
 // fichier src/app/(protected)/layout.tsx
 "use client";
 
-import { useAuth } from "@workos-inc/authkit-react";
+//import { useAuth } from "@workos-inc/authkit-react";
+import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import type { ReactNode } from "react";

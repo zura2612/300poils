@@ -1,5 +1,6 @@
 // src/components/LanguageSwitcher.tsx
 import { useLanguage } from "@/contexts/LanguageContext";
+import { siteClass } from "@/config/site";
 
 export function LanguageSwitcher() {
   const { lang, toggleLang } = useLanguage();
@@ -12,11 +13,11 @@ export function LanguageSwitcher() {
       aria-label={label}
       title={label}
       // "pointer-events-auto" et "isolate" pour garantir la capture du survol
-      className="relative grid h-9 w-9 place-items-center rounded-full 
-      transition pointer-events-auto isolate hover:bg-accent"
+      className={`relative grid h-9 w-9 place-items-center rounded-full 
+        transition pointer-events-auto isolate ${siteClass.hoverBackground}`}
     >
-      {lang === "fr" ? ( <img src="/flags/en.svg" alt="English" className="h-4 w-4 pointer-events-none" /> ) :
-        ( <img src="/flags/fr.svg" alt="Français" className="h-4 w-4 pointer-events-none" /> )
+      {lang === "fr" ? ( <img src="/flags/en.svg" alt="English" className="h-7 w-7 pointer-events-none" /> ) :
+        ( <img src="/flags/fr.svg" alt="Français" className="h-7 w-7 pointer-events-none" /> )
       }
     </button>
   );

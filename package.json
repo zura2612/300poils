@@ -18,6 +18,7 @@
     "@calcom/embed-react": "^1.5.3",
     "@hookform/resolvers": "^5.8.0",
     "@radix-ui/react-accordion": "^1.2.12",
+    "@workos-inc/authkit-nextjs": "^4.3.1",
     "@workos-inc/authkit-react": "^0.16.1",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",

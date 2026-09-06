@@ -21,9 +21,9 @@ export default function CtaBand() {
   return (
     <section className={siteClass.sectionClass}>
       <div className="flex flex-col items-center gap-6 py-5 text-center md:py-10">
-        <span className={`${siteStyle.titreSectionBleuStyle}`}>{t.hero.title}</span>
-        <h2 className={`${siteStyle.ligne1SectionBleuStyle}`}>{t.hero.primary}</h2>
-        <p className={`${siteStyle.ligne2SectionBleuStyle}`}>{t.hero.secondary}</p>
+        <span className={`${siteStyle.titreSectionBlancStyle}`}>{t.hero.title}</span>
+        <h2 className={`${siteStyle.ligne1SectionBlancStyle}`}>{t.hero.primary}</h2>
+        <p className={`${siteStyle.ligne2SectionBlancStyle}`}>{t.hero.secondary}</p>
         <div className="flex flex-col gap-3 sm:flex-row">
           {/*<Link href="/contact" className={`${siteStyle.boutonStyle}`}>*/}
           <Link href="/contact" className={desktopActiveClass}>

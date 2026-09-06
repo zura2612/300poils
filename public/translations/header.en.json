@@ -17,6 +17,9 @@
     "themeDark": "Switch to dark mode",
     "login": "Log in",
     "logout": "Log out",
+    "titre": "Administration",
+    "item1": "Users",
+    "item2": "Statistics",
     "logoutSuccess": "Successfully signed out",
     "loading": "Loading...",
     "connected": "connected"

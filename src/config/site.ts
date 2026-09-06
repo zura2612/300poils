@@ -21,9 +21,6 @@
   };
   
 export const siteStyle = {
-  titreSectionBleuStyle: "text-sm font-bold uppercase md:text-3xl",
-  ligne1SectionBleuStyle: "text-xl font-bold mt-4 md:text-2xl",
-  ligne2SectionBleuStyle: "text-base mt-4 md:text-xl",
   titreSectionBlancStyle: "text-sm font-bold uppercase md:text-3xl",
   ligne1SectionBlancStyle: "text-xl font-bold mt-4 md:text-2xl",
   ligne2SectionBlancStyle: "text-base mt-4 md:text-xl",
@@ -36,5 +33,7 @@ export const siteClass = {
   sectionClass: "container-narrow rounded-xl mb-2 border border-black dark:border-white",
   text: "text-black dark:text-white bg-white dark:bg-black",
   border: "border border-black dark:border-white",
+  border_bas: "border-b border-black dark:border-white",
   hoverBorder: "hover:border-blue-500 dark:hover:border-blue-500",
+  hoverBackground: "hover:bg-blue-300 dark:hover:bg-blue-500",
   };

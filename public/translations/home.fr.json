@@ -8,7 +8,7 @@
   },
   "trustbar": {
     "items": [
-      { "iconKey": "Award", "label": "Toiletteuse certifiée et formée" },
+      { "iconKey": "Award", "label": "Toiletteur certifié et formé" },
       { "iconKey": "ShieldCheck", "label": "Assurance professionnelle complète" },
       { "iconKey": "Clock", "label": "Bien-être et douceur garantis" }
     ]

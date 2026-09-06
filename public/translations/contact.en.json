@@ -16,6 +16,14 @@
     "email": "Your email *",
     "identite": "First & last name *"
   },
+  "validation": {
+    "err_prenomNom_requis": "This field is required",
+    "err_prenomNom_format": "Enter your first name (min. 2 letters), a space, then your last name (min. 2 letters)",
+    "err_email_invalide": "Invalid email address",
+    "err_telephone_invalide": "Invalid phone number",
+    "err_sujet_min": "The project type must contain at least 3 characters",
+    "err_message_min": "The message must contain at least 10 characters"
+  },
   "toast": {
   "succes": "Request sent! We will get back to you within 48 hours at the latest.",
   "erreur_resend": "Error sending request. We apologize. Please send us an email directly.",

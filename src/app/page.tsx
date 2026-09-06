@@ -81,11 +81,11 @@ export default function HomePage() {
 
       {/* TRUST BAR */}
       <section className={siteClass.sectionClass}>
-        <div className="container-narrow  grid grid-cols-2 md:grid-cols-4 text-center gap-6 py-8">
+        <div className="container-narrow  grid grid-cols-2 md:grid-cols-3 text-center gap-6 py-8">
            {t.trustbar.items.map(({ iconKey, label }) => {
            const Icon = homeIconMap[iconKey];
            return (
-	     <div key={label} className="flex items-center justify-center gap-2 text-sm font-medium text-foreground/80">
+	     <div key={label} className="flex items-center justify-center gap-2">
                <Icon className="h-4 w-4 text-primary" /> {label}
              </div> );
 		  })}

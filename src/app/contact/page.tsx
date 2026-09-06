@@ -1,7 +1,7 @@
 // src/app/contact/page.tsx
 "use client";
 
-import { Suspense, useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { ChevronDown } from "lucide-react";
@@ -9,7 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 
-import { contactSchema, ContactFormData } from "@/lib/schemas/contact";
+//import { contactSchema, ContactFormData } from "@/lib/schemas/contact";
+import { getContactSchema, ContactFormData } from "@/lib/schemas/contact";
 import { sendContactEmail } from "./actions";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { usePageTranslations } from "@/hooks/usePageTranslations";
@@ -24,20 +25,19 @@ const styleText = siteClass.text;
 function ContactFormContent() {
   const { lang } = useLanguage();
   const { data: t, error, isLoading } = usePageTranslations<ContactTranslations>("contact", lang);
-
-  const searchParams = useSearchParams();
-  const subjectParam = searchParams.get("subject") || searchParams.get("project") || "";
-  const buttonRef = useRef<HTMLButtonElement>(null);
-
+  // Instanciation dynamique du schéma traduit
+  const schema = useMemo(() => getContactSchema(t?.validation), [t]);
   const {
     register,
     handleSubmit,
     setValue,
     reset,
     setError, // pour enregistrer les erreurs serveur globales dans React Hook Form
+    trigger,  // pour forcer la revalidation des champs
     formState: { errors, isSubmitting },
   } = useForm<ContactFormData>({
-    resolver: zodResolver(contactSchema),
+  //  resolver: zodResolver(contactSchema),
+    resolver: zodResolver(schema), // Utilisation du schéma réactif
     defaultValues: {
       prenomNom: "",
       email: "",
@@ -47,6 +47,18 @@ function ContactFormContent() {
       website: "", // Honeypot antispam
     },
   });
+
+  // Forcer la re-validation des erreurs en cours dès que la langue/traduction change
+  useEffect(() => {
+    // On ne re-déclenche la validation que si des erreurs sont actuellement affichées
+    if (Object.keys(errors).length > 0) {
+      trigger();
+    }
+  }, [t, lang, trigger]);
+
+  const searchParams = useSearchParams();
+  const subjectParam = searchParams.get("subject") || searchParams.get("project") || "";
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   // Injection automatique du sujet/projet passé en paramètre URL
   useEffect(() => {
@@ -116,8 +128,8 @@ function ContactFormContent() {
       {/* Section En-tête */}
       <section className={siteClass.sectionClass}>
         <div className="container-narrow flex flex-col items-center gap-10 py-2 md:py-4">
-          <h1 className={`${siteStyle.ligne1SectionBleuStyle}`}>{t.hero.primary}</h1>
-          <p className={`${siteStyle.ligne2SectionBleuStyle}`}>{t.hero.secondary}</p>
+          <h1 className={`${siteStyle.ligne1SectionBlancStyle}`}>{t.hero.primary}</h1>
+          <p className={`${siteStyle.ligne2SectionBlancStyle}`}>{t.hero.secondary}</p>
           <p className="w-full text-right italic text-black dark:text-white mt-3">{t.formulaire.champ}</p>
         </div>
       </section>

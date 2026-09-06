@@ -27,14 +27,14 @@ export function LockedLink({
       className={`
         flex items-center gap-2
         rounded-xl px-4 py-2
-        text-sm font-semibold text-center tracking-wider
+        font-semibold text-center tracking-wider
         opacity-50
-        transition hover:opacity-70
+        transition hover:opacity-60
         ${className}
       `}
     >
       <span>{label}</span>
-      <Lock className="h-3.5 w-3.5" aria-hidden="true" />
+      <Lock className="h-6 w-6" aria-hidden="true" />
     </button>
   );
 }

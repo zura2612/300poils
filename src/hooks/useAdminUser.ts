@@ -1,11 +1,11 @@
 // fichier src/hooks/useAdminUser.ts
 import { useState, useEffect } from 'react';
-import { useAuth } from '@workos-inc/authkit-react';
+//import { useAuth } from '@workos-inc/authkit-react';
+import { useAuth } from "@/contexts/AuthContext";
 import { getCurrentUser } from '@/lib/admin-api';
 
 // Custom metadata dans workos.com pour l'utilisateur administrateur francois.vauchot@gmail.com
-const ADMIN_ROLE = 'AdminSiteDev';
-const ADMIN_SLUG = 'admin'; // quelle est son utilité?
+const ADMIN_SLUG = 'admin';
 
 interface AdminUser {
   id: string;
@@ -23,7 +23,7 @@ interface AdminUser {
 }
 
 export function useAdminUser() {
-  const { user, getAccessToken, isLoading: isAuthLoading } = useAuth();
+  const { user, accessToken, getAccessToken, isLoading: isAuthLoading } = useAuth();
   const [adminUser, setAdminUser] = useState<AdminUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -53,24 +53,12 @@ export function useAdminUser() {
     }
 
     loadAdminUser();
-  }, [user, isAuthLoading, getAccessToken]);
-
-
+    }, [user, isAuthLoading, accessToken]);
 
   // pour un projet donné metadata.role = name et metadata.slug = slug du rôle défini dans Authorization/Roles
-  const isAdmin = adminUser?.metadata?.role === ADMIN_ROLE;
-/*if(adminUser) {
-console.log("hooks/useAdminUser.ts adminUser.metadata.role=", adminUser.metadata.role);
-console.log("hooks/useAdminUser.ts adminUser.metadata.slug=", adminUser.metadata.slug);
-console.log("hooks/useAdminUser.ts isAdmin=", isAdmin);
-console.log("Détail isAdmin :", adminUser );
-console.log("Détail isAdmin :", {fullAdminUser: adminUser} );
-} else console.log("hooks/useAdminUser.ts adminUser=null!");*/
+  const isAdmin = adminUser?.metadata?.slug === ADMIN_SLUG;
+//console.log("hooks/useAdminUser.ts adminUser.metadata.role=", adminUser.metadata.role);
+//console.log("hooks/useAdminUser.ts adminUser.metadata.slug=", adminUser.metadata.slug);
 
-  return {
-    adminUser,
-    isLoading: isAuthLoading || isLoading,
-    error,
-    isAdmin
-  };
+  return { adminUser, isLoading: isAuthLoading || isLoading, error, isAdmin };
 }

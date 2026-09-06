@@ -17,6 +17,9 @@
     "themeDark": "Passer au thème sombre",
     "login": "Se connecter",
     "logout": "Se déconnecter",
+    "titre": "Administration",
+    "item1": "Utilisateurs",
+    "item2": "Statistiques",
     "logoutSuccess": "Déconnexion réussie",
     "loading": "Chargement...",
     "connected": "connecté"

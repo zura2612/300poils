@@ -45,6 +45,9 @@ export interface ContactTranslations {
   formulaire: { champ: string; identite: string; telephone: string; email: string; projet: string;
     message: string; message_suggestion: string; message_tooltip: string;
     bouton: string; bouton_attente: string; confidentialite: string };
+  validation: { err_prenomNom_requis : string; err_prenomNom_format : string;
+    err_email_invalide : string; err_telephone_invalide : string;
+    err_sujet_min : string; err_message_min : string };
   toast: { succes: string; erreur_resend: string; erreur_reseau: string };
 }
 
@@ -124,6 +127,9 @@ export interface HeaderTranslations {
     themeDark: string;
     login: string;
     logout: string;
+    titre: string,
+    item1: string,
+    item2: string,
     logoutSuccess: string; // label du toast
     loading: string;
     connected: string;

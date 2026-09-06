@@ -21,7 +21,8 @@ import { CAL_EVENTS, getDefaultEvent, getEventById } from "@/config/cal-events";
 import { getLastSelectedEvent, setLastSelectedEvent } from "@/lib/last-event";
 import type { CalBookingDetails } from "@/types/cal";
 //import { BOOKING_STORAGE_KEY } from "@/lib/storage-keys";
-import { useAuth } from "@workos-inc/authkit-react";
+//import { useAuth } from "@workos-inc/authkit-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 type BookingStatus = "idle" | "success" | "cancelled";
 

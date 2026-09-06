@@ -4,10 +4,9 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Sun, Moon } from "lucide-react";
+import { siteClass } from "@/config/site";
 
-interface ThemeToggleProps {
-  labels?: { light: string; dark: string; };
-}
+interface ThemeToggleProps { labels?: { light: string; dark: string; }; }
 
 export function ThemeToggle({ labels }: ThemeToggleProps) {
   const { theme, setTheme } = useTheme();
@@ -22,35 +21,32 @@ export function ThemeToggle({ labels }: ThemeToggleProps) {
   // Cela garantit que le composant fonctionne même sans prop (rétrocompatibilité).
   const lightLabel = labels?.light ?? "Mode clair";
   const darkLabel = labels?.dark ?? "Mode sombre";
-
-  /*if (!mounted) {
-    return <div className="w-9 h-9" />; // Espace réservé pendant le chargement
-  }*/
   if (!mounted) {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="p-2 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+      className={`p-2 rounded-lg ${siteClass.hoverBackground} transition-colors`}
       aria-label="Changer le thème"
     >
-      {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+      {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
     </button>
   );
   }
 
 const isDark = theme === "dark";
-
+/*className={`p-2 rounded-full ${siteClass.hoverBackground} transition-colors`}*/
 return (
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label={isDark ? lightLabel : darkLabel}
       title={isDark ? lightLabel : darkLabel}
-      className="rounded-full p-2 hover:bg-muted transition-colors"
-    >
+      className={`relative grid h-9 w-9 place-items-center rounded-full 
+        transition pointer-events-auto isolate ${siteClass.hoverBackground}`}
+     >
       {isDark ? (
-        <Sun className="h-5 w-5" aria-hidden="true" />
+        <Sun className="h-7 w-7" aria-hidden="true" />
       ) : (
-        <Moon className="h-5 w-5" aria-hidden="true" />
+        <Moon className="h-7 w-7" aria-hidden="true" />
       )}
     </button>
   );
