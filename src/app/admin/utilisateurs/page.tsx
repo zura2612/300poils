@@ -3,22 +3,20 @@ import Link from "next/link";
 import { withAuth } from "@workos-inc/authkit-nextjs";
 import { ShieldAlert, UserCheck, ChevronLeft, ChevronRight } from "lucide-react";
 import { ExportUsersButton } from "./ExportUsersButton";
+import { PaginationMeta } from "@/lib/admin-api";
+import { getUsers } from "@/lib/admin-api";
 import { siteClass } from "@/config/site";
 
 const vignetteStyle = `mb-6 ${siteClass.text} ${siteClass.border} rounded-xl shadow-sm`;
-const boutonStyle = `inline-flex items-center gap-1 px-3 py-2 font-medium ${siteClass.text} ${siteClass.border} rounded-xl`; 
+const boutonStyle = `inline-flex items-center gap-1 px-3 py-2 font-medium ${siteClass.text} ${siteClass.border} rounded-xl`;
+const champRoleStyle = "bg-gray-300 dark:bg-gray-800 text-gray-800 dark:text-gray-300";
 //const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE_SIZE = 2;
 
 interface UserData {
   id: string; email: string;
   firstName: string; lastName: string;
-  metadata?: { role?: string }; createdAt: string;
-}
-
-interface PaginationMeta {
-  before: string | null; after: string | null;
-  hasBefore: boolean; hasMore: boolean;
+  metadata?: { role?: string; slug?: string; [key: string]: unknown; }; createdAt: string;
 }
 
 interface PageProps { searchParams: Promise<{ after?: string; before?: string;}>; }
@@ -47,50 +45,27 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
   let pagination: PaginationMeta = { before: null, after: null, hasBefore: false, hasMore: false, };
   let fetchError: string | null = null;
 
-  // 2. Requête API côté serveur avec curseurs dans l'URL
   try {
-    let url = `${workerUrl}/api/users?limit=${DEFAULT_PAGE_SIZE}`;
-    if (after) {
-      url += `&after=${encodeURIComponent(after)}`;
-    } else if (before) {
-      url += `&before=${encodeURIComponent(before)}`;
-    }
-
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ error: "Inconnu" }));
-      //console.error("❌ Erreur retournée par admin-worker:", errorData);
-      throw new Error(`Erreur serveur: ${response.status} (${errorData.error})`);
-    }
-
-    const result = await response.json();
+    const result = await getUsers(async () => accessToken, { limit: DEFAULT_PAGE_SIZE, after, before, });
     usersList = result.data || [];
-    if (result.pagination) {
-      pagination = result.pagination;
-    }
+    if (result.pagination) { pagination = result.pagination; }
   } catch (err: any) {
     console.error("admin/utilisateurs/page.tsx: Erreur lors du chargement des utilisateurs:", err);
     fetchError = "Impossible de charger la liste des utilisateurs.";
-  }
-
+    }
+/*<main className="max-w-6xl mx-auto px-4 py-10">*/
   return (
-    <main className="max-w-6xl mx-auto px-4 py-10">
+      <main className="w-full">
       {/* En-tête */}
-      <div className={`flex items-center justify-between mb-6 ${siteClass.border_bas} pb-5`}>
+      <section className={siteClass.sectionClass}>
+      <div className={`flex items-center justify-between mb-4 ${siteClass.border_bas} pb-5`}>
         <div>
-          <h1 className={`flex gap-2 text-xl items-center ${siteClass.text} font-bold`}>
-            <UserCheck className="h-6 w-6 text-blue-600" />
+          <h1 className={`flex gap-2 text-2xl items-center ${siteClass.text} font-bold`}>
+            <UserCheck className="h-7 w-7 text-blue-600" />
             Administration des utilisateurs
           </h1>
           <p className="mt-1">
-            Connecté en tant que <strong className="text-blue-700">{user?.email}</strong>
+            Connecté en tant que <strong className="text-blue-500">{user?.email}</strong>
           </p>
         </div>
       </div>
@@ -131,8 +106,8 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
                       <td className="px-6 py-4 font-medium">{u.firstName} {u.lastName}</td>
                       <td className="px-6 py-4">{u.email}</td>
                       <td className="px-6 py-4">
-                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                          {u.metadata?.slug || "inconnu"}
+                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${champRoleStyle}`}>
+                          {u.metadata?.slug || u.metadata?.role || "inconnu"}
                         </span>
                       </td>
                     </tr>
@@ -187,6 +162,7 @@ export default async function AdminUsersPage({ searchParams }: PageProps) {
           </div>
         </>
       )}
+    </section>
     </main>
   );
 }

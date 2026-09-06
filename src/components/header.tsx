@@ -118,8 +118,8 @@ export default function Header() {
             <div className="mr-4">
             <LogToggle labels={{
                 titre: t.tooltips.titre, item1: t.tooltips.item1, item2: t.tooltips.item2,
-                login: t.tooltips.login, logout: t.tooltips.logout, logoutSuccess: t.tooltips.logoutSuccess,
-                loading: t.tooltips.loading, connected: t.tooltips.connected
+                login: t.tooltips.login, logout: t.tooltips.logout, loading: t.tooltips.loading,
+                logoutSuccess: t.tooltips.logoutSuccess, connected: t.tooltips.connected
                 }}/>
             </div>
           </div>
@@ -158,7 +158,9 @@ export default function Header() {
                     {t.mobileSections.account}
                   </span>
                   {/* logoutSuccess et connected ne sont pas utilisés. Pourquoi? */}
-                  <LogToggle labels={{ login: t.tooltips.login, logout: t.tooltips.logout, loading: t.tooltips.loading }}/>
+                  <LogToggle labels={{
+                    titre: t.tooltips.titre, item1: t.tooltips.item1, item2: t.tooltips.item2,
+                    login: t.tooltips.login, logout: t.tooltips.logout, loading: t.tooltips.loading }}/>
                 </div>
               </div>
             </div>

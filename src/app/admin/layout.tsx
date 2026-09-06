@@ -44,5 +44,5 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   // L'utilisateur est authentifié ET administrateur
-  return <section className="admin-container p-6">{children}</section>;
+  return children;
 }

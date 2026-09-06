@@ -6,8 +6,8 @@ import { getCurrentUser } from '@/lib/admin-api';
 
 // Custom metadata dans workos.com pour l'utilisateur administrateur francois.vauchot@gmail.com
 const ADMIN_SLUG = 'admin';
-
-interface AdminUser {
+// ajout de export pour utilisation dans admin-api.ts
+export interface AdminUser {
   id: string;
   email: string;
   firstName: string;

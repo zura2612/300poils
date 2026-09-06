@@ -2,7 +2,10 @@
 "use client";
 
 import { createContext, useContext, type ReactNode } from "react";
-import type { User } from "@workos-inc/authkit-nextjs";
+import { withAuth } from "@workos-inc/authkit-nextjs";
+//import type { User } from "@workos-inc/authkit-nextjs";
+
+export type User = Awaited<ReturnType<typeof withAuth>>["user"];
 
 interface AuthContextType {
   user: User | null;
@@ -23,39 +26,22 @@ const AuthContext = createContext<AuthContextType>({
   signOut: () => {},
 });
 
-export function AuthProvider({
-  user,
-  accessToken,
-  children,
-}: {
-  user: User | null;
-  accessToken?: string;
-  children: ReactNode;
-}) {
-  const signIn = () => {
-    window.location.href = "/login";
-  };
+export function AuthProvider({ user, accessToken, children, }:
+  {  user: User | null; accessToken?: string; children: ReactNode; }) {
 
-  const signOut = () => {
-    window.location.href = "/logout";
-  };
+  const signIn = () => { window.location.href = "/login"; };
+
+  const signOut = () => { window.location.href = "/logout"; };
 
   const getAccessToken = async () => accessToken;
 
   return (
     <AuthContext.Provider
       value={{
-        user,
-        accessToken,
-        getAccessToken,
-        isAuthenticated: !!user,
-        isLoading: false,
-        signIn,
-        signOut,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+        user, accessToken, getAccessToken,
+        isAuthenticated: !!user, isLoading: false,
+        signIn, signOut,}}
+    >{children}</AuthContext.Provider>
   );
 }
 

@@ -13,9 +13,9 @@ import { useAdminUser } from "@/hooks/useAdminUser";
 import { siteClass } from "@/config/site";
 
 interface LogToggleProps {
-  labels: { login: string; logout: string; loading: string;
-    logoutSuccess?: string; // optionnel
-    connected?: string;     // optionnel
+  labels: { titre: string; item1: string; item2: string;
+    login: string; logout: string; loading: string;
+    logoutSuccess?: string; connected?: string; // optionnel pourquoi?
   };
 }
 
