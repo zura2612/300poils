@@ -41,9 +41,16 @@ async function callAdminApi<T>(
     },
   });
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error( errorData.message || errorData.error || `Erreur API HTTP ${response.status}` );
+   if (!response.ok) {
+    const rawText = await response.text();
+    let errorData: any = {};
+    try { errorData = JSON.parse(rawText); } catch { errorData = { error: rawText }; }
+    // Affiche la clé "details" si le Worker la renvoie
+    const errorMessage = errorData.details  ? `callAdminApi: ${errorData.error} (${errorData.details})`
+      : errorData.message || errorData.error || `callAdminApi: Erreur HTTP ${response.status}`;
+    throw new Error(errorMessage);
+    /*const errorData = await response.json().catch(() => ({}));
+    throw new Error( errorData.message || errorData.error || `Erreur HTTP ${response.status}` );*/
   }
   return response.json();
 }
