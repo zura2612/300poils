@@ -28,7 +28,8 @@ const AuthContext = createContext<AuthContextType>({
 
 export function AuthProvider({ user, accessToken, children, }:
   {  user: User | null; accessToken?: string; children: ReactNode; }) {
-  console.log("AuthContext.tsx/AuthProvider: accessToken=", accessToken);
+ const tokenPreview = accessToken ? `${accessToken.slice(0, 10)}...` : "undefined";
+ console.log("AuthContext.tsx/AuthProvider: accessToken=", tokenPreview);
 
   const signIn = () => { window.location.href = "/login"; };
 
