@@ -32,14 +32,24 @@ async function callAdminApi<T>(
   const token = await getAccessToken();
   if (!token) { throw new Error("Jeton d'accès non disponible ou session expirée."); }
 
-  const response = await fetch(`${ADMIN_WORKER_URL}${endpoint}`, {
+  let response: Response;
+  try {
+    response = await fetch(`${ADMIN_WORKER_URL}${endpoint}`, {
     ...options,
+  /*const response = await fetch(`${ADMIN_WORKER_URL}${endpoint}`, {
+    ...options,*/
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
       ...options.headers,
     },
-  });
+    });
+  } catch (networkError) {
+    console.error("admin-api.ts/callAdminApi Erreur réseau / CORS lors du fetch :", networkError);
+    throw new Error(
+    `Impossible de joindre le Worker Admin (${ADMIN_WORKER_URL}). Vérifiez CORS ou l'URL.`
+    );
+  }
 
    if (!response.ok) {
     const rawText = await response.text();
